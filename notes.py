@@ -69,7 +69,7 @@ a.reshape(2, 2)
 #            [3, 4]])
 
 
-a = np.array([x*np.pi for x in range(1, 3, 0.5)])
+a = np.array([x*np.pi for x in range(1, 6, 1)])
 print(a)
 # >>> [ 3.14159265  4.71238898  6.28318531  7.85398163  9.42477796 10.99557429]
 np.get_printoptions()
@@ -99,7 +99,7 @@ print(a)
 
 print(a[:, 3]) 
 # >>> [4 6 9 3 1 4]
-print(a(2::2, 2::2)) # every other row, every other column both starting at 2
+print(a[2::2, 2::2]) # every other row, every other column both starting at 2
 # >>> [[8 9 9]
 #      [0 3 0]
 #      [4 1 1]]
@@ -153,3 +153,45 @@ print(b)
 b = a[2, mask]
 print(b)
 # >>> [9 8 9]
+
+np.linspace(0, 10, 5)
+# >>> array([ 0. ,  2.5,  5. ,  7.5, 10. ])
+np.logspace(0, 10, 5)
+# >>> array([1.e+00, 1.e+02, 1.e+04, 1.e+06, 1.e+08, 1.e+10])
+
+# loadtxt() and savetxt() are useful for loading and saving data from/to text files
+# they can also be used to load/save data from a URL
+
+# Multi-dimensional array axis:
+# 2D: 0 = rows, 1 = columns
+# 3D: 0 = depth, 1 = rows, 2 = columns
+# 4D: 0 = depth, 1 = rows, 2 = columns, 3 = channels
+# Negative axis indexing: -1 = last axis, -2 = second last axis, etc. This is useful when you don't know the dimensionality of the array as it stays consistent with all dimensions
+
+a = np.random.randint(0, 10, (6, 6))
+print(a)
+# >>> [[0 2 2 8 1 0]
+#      [6 5 5 7 2 2]
+#      [4 6 1 4 1 2]
+#      [5 1 5 3 9 8]
+#      [4 6 3 2 4 4]
+#      [2 4 3 4 0 5]]
+a.max()
+# >>> 9
+a.argmax()
+# >>> 23
+# argmax() returns the index of the maximum value but works on a flattened array
+np.unravel_index(a.argmax(), a.shape)
+# >>> (3, 4)
+# unravel_index() returns the index of the maximum value after unflattening the array
+
+mask = a > 8
+print(np.where(mask))
+# >>> (array([3], dtype=int64), array([4], dtype=int64))
+# where() returns the indices of the elements that satisfy the condition, with the first array containing the row indices and the second array containing the column indices
+
+# Transpose in numpy is a very cheap operation as it does not change the data in memoery itself, only the metadata for the array.
+# This is in contrast to the transpose() method in pandas which creates a copy of the data.
+
+
+

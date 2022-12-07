@@ -105,10 +105,51 @@ print(a(2::2, 2::2)) # every other row, every other column both starting at 2
 #      [4 1 1]]
 
 
+b = a[1]
+np.shares_memory(a, b)
+# >>> True
+b = a[1].copy()
+np.shares_memory(a, b)
+# >>> False
 
+# Fancy indexing (indexing with an array of integers) creates a copy of the data unlike slicing
+a = np.arange(0, 100, 10)
+indices = [1, 5, -1]
+b = a[indices]
+np.shares_memory(a, b)
+# >>> False
 
+# Masking allows you to select elements that satisfy a condition, also creating a copy of the data
+a = np.arange(0, 100, 10)
+print(a)
+# >>> [ 0 10 20 30 40 50 60 70 80 90]
+# create a mask which will be used to select elements from a
+mask = np.array([0, 1, 1, 0, 0, 1, 0, 0, 0, 1], dtype=bool)
+# select elements that satisfy the mask
+b = a[mask]
+print(b)
+# >>> [10 50 90]
+mask = a <= 50
+b = a[mask]
+print(b)
+# >>> [ 0 10 20 30 40 50]
+np.shares_memory(a, b)
+# >>> False
 
-
-
-
-
+# For a 2d array you can apply fancy indexing max to a specific column or row
+# create random 2d array
+a = np.random.randint(0, 10, (6, 6))
+print(a)
+# >>> [[9 2 2 4 7 6]
+#      [8 8 1 6 7 7]
+#      [9 9 8 9 9 9]
+#      [4 4 0 3 3 0]
+#      [2 4 4 1 9 9]
+#      [0 1 4 4 2 1]]
+mask = np.array([1, 0, 1, 0, 0, 1], dtype=bool)
+b = a[mask, 2]
+print(b)
+# >>> [2 8 4]
+b = a[2, mask]
+print(b)
+# >>> [9 8 9]
